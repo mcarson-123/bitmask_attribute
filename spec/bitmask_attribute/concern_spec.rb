@@ -63,11 +63,31 @@ RSpec.describe BitmaskAttribute::Concern do
     end
   end
 
+  describe "setting options" do
+    before { foo.bitmask_attributes = 1 }
+
+    describe "turning an option on" do
+      it "updates the attribute" do
+        foo.option_2 = true
+        expect(foo.bitmask_attributes).to eql(3)
+      end
+    end
+
+    describe "turning an option off" do
+      it "updates the attribute" do
+        foo.option_1 = false
+        expect(foo.bitmask_attributes).to eql(0)
+      end
+    end
+  end
+
   class Foo
     include BitmaskAttribute::Concern
 
     attr_accessor :bitmask_attributes
 
-    bitmask_attribute :bitmask_attributes
+    OPTIONS = { option_1: 1, option_2: 2 }
+
+    bitmask_attribute :bitmask_attributes, OPTIONS
   end
 end

@@ -28,9 +28,11 @@ This attribute is expected to be an integer type.
 Class Foo
   include BitmaskAttribute::Concern
 
+  # Hash of options to bit values
+  OPTIONS_HASH = { option_1: 1, option_2: 2, option_3: 4, option_4: 8 }
   ...
 
-  bitmask_attribute :actions
+  bitmask_attribute :actions, OPTIONS_HASH
 ```
 
 You now get the following methods at your disposal:
@@ -43,6 +45,14 @@ You now get the following methods at your disposal:
 
 `foo_instance.remove_action(1)`
 -> removes the input bit flag from the mask
+
+`foo.option_1 = true`
+or if using an active record model: `foo.update(option_1: true)`
+-> adds the 1 bit to the bitmask attribute
+
+`foo_option_1 = false`
+or if using an active record model: `foo.update(option_1: false)`
+-> removes the 1 bit from the bitmask attribute
 
 ## Contributing
 
