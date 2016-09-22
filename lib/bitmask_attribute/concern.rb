@@ -24,8 +24,22 @@ module BitmaskAttribute
         end
 
         options_hash.each do |key, value|
+          attr_accessor key.to_sym
+
           define_method "#{key}=" do |bool_value|
             bool_value ? send("add_#{single_name}", value) : send("remove_#{single_name}", value)
+          end
+
+          define_method "#{key}" do
+            send("#{single_name}_present?", value)
+          end
+
+          define_method "#{key}?" do
+            send("#{single_name}_present?", value)
+          end
+
+          define_method "#{key}!" do
+            send("add_#{single_name}", value)
           end
         end
       end
